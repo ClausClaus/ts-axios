@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from './types'
 import xhr from './xhr'
 import { buildURL } from './helpers/url'
+import { transformRequest } from './helpers/data'
 /**
  *
  * axios请求函数
@@ -17,10 +18,26 @@ function axios(config: AxiosRequestConfig): void {
  */
 function processConfig(config: AxiosRequestConfig): void {
   config.url = transformURL(config)
+  config.data = transformRequestData(config)
 }
+/**
+ *
+ * 转换请求的Url
+ * @param {AxiosRequestConfig} config
+ * @returns {string}
+ */
 function transformURL(config: AxiosRequestConfig): string {
   const { url, params } = config
   return buildURL(url, params)
+}
+/**
+ *
+ * 转换发送给后端的请求参数
+ * @param {AxiosRequestConfig} config
+ * @returns {*}
+ */
+function transformRequestData(config: AxiosRequestConfig): any {
+  return transformRequest(config.data)
 }
 
 export default axios

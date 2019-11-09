@@ -82,13 +82,13 @@ import axios from '../../src/index'
 //   }
 // })
 //
-// const arr = new Int32Array([21, 31])
-//
-// axios({
-//   method: 'post',
-//   url: '/base/buffer',
-//   data: arr
-// })
+const arr = new Int32Array([21, 31])
+
+axios({
+  method: 'post',
+  url: '/base/buffer',
+  data: arr
+})
 //
 //
 // const paramsString = 'q=URLUtils.searchParams&topic=api'
