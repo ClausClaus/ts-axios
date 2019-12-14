@@ -17,6 +17,7 @@ function encode(val: string): string {
     .replace(/%5B/gi, '[')
     .replace(/%5D/gi, ']')
 }
+
 /**
  *
  * 处理请求url参数
