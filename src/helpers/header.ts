@@ -17,6 +17,11 @@ function normalizeHeaderName(headers: any, normalizeName: string): void {
   })
 }
 
+/**
+ * 设置默认的请求头 & 规范化请求头
+ * @param headers 请求头参数对象
+ * @param data 请求头数据
+ */
 export function processHeaders(headers: any, data: any): any {
   normalizeHeaderName(headers, 'Content-Type')
   if (isPlainObject(data)) {
@@ -25,4 +30,24 @@ export function processHeaders(headers: any, data: any): any {
     }
   }
   return headers
+}
+
+export function parseHeaders(headers: string): any {
+  let parsed = Object.create(null)
+  if (!headers) {
+    return parsed
+  }
+
+  headers.split('\r\n').forEach(line => {
+    let [key, val] = line.split(':')
+    key = key.trim().toLowerCase()
+    if (!key) {
+      return
+    }
+    if (val) {
+      val = val.trim()
+    }
+    parsed[key] = val
+  })
+  return parsed
 }

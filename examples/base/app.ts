@@ -61,20 +61,20 @@ import axios from '../../src/index'
 //   }
 // })
 //
-// axios({
-//   method: 'post',
-//   url: '/base/post',
-//   data: {
-//     a: 1,
-//     b: 2
-//   }
-// })
+axios({
+  method: 'post',
+  url: '/base/post',
+  data: {
+    a: 1,
+    b: 2
+  }
+})
 //
 axios({
   method: 'post',
   url: '/base/post',
   headers: {
-    'content-type': 'application/json;charset=utf-8'
+    'content-type': 'application/json'
   },
   data: {
     a: 1,
@@ -99,14 +99,14 @@ axios({
   data: searchParams
 })
 
-axios({
-  method: 'post',
-  url: '/base/post',
-  data: {
-    a: 1,
-    b: 2
-  }
-})
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   data: {
+//     a: 1,
+//     b: 2
+//   }
+// })
 
 // axios({
 //   method: 'post',

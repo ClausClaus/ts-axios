@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from './types'
+import { parseHeaders } from './helpers/header'
 
 export default function xhr(config: AxiosRequestConfig): void {
   const { data = null, url, method = 'get', headers } = config

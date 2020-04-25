@@ -46,8 +46,13 @@ function transformRequestData(config: AxiosRequestConfig): any {
   return transformRequest(config.data)
 }
 
-function transformRequestHeader(config: AxiosRequestConfig): any {
+/**
+ * 转换发送给后端的请求头数据
+ * @param config
+ */
+function transformRequestHeader(config: AxiosRequestConfig): string {
   const { headers = {}, data } = config
+  // 根据传递到后端的data来设置默认的请求头数据
   return processHeaders(headers, data)
 }
 
