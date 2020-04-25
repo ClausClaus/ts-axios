@@ -1,7 +1,7 @@
-import { AxiosRequestConfig } from './types'
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
 import xhr from './xhr'
 import { buildURL } from './helpers/url'
-import { transformRequest } from './helpers/data'
+import { transformRequest, transformResponse } from './helpers/data'
 import { processHeaders } from './helpers/header'
 
 /**
@@ -9,9 +9,9 @@ import { processHeaders } from './helpers/header'
  * axios请求函数
  * @param {AxiosRequestConfig} config
  */
-function axios(config: AxiosRequestConfig): void {
+function axios(config: AxiosRequestConfig): AxiosPromise {
   processConfig(config)
-  xhr(config)
+  return xhr(config).then(res => transformResponseData(res))
 }
 
 /**
@@ -54,6 +54,11 @@ function transformRequestHeader(config: AxiosRequestConfig): string {
   const { headers = {}, data } = config
   // 根据传递到后端的data来设置默认的请求头数据
   return processHeaders(headers, data)
+}
+
+function transformResponseData(res: AxiosResponse): AxiosResponse {
+  res.data = transformResponse(res.data)
+  return res
 }
 
 export default axios
