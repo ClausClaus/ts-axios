@@ -1,64 +1,29 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
-import xhr from './xhr'
-import { buildURL } from './helpers/url'
-import { transformRequest, transformResponse } from './helpers/data'
-import { processHeaders } from './helpers/header'
+import { AxiosInstance } from './types'
+import Axios from './core/Axios'
+import { extend } from './helpers/util'
 
 /**
+ * 实例化axios请求实例，并将Axios类的公共方法继承过来
  *
- * axios请求函数
- * @param {AxiosRequestConfig} config
+ * 因为axios接口跟axios上的request接口接收的参数是一样的，所以直接将axios原型上的request方法赋值给instance变量
+ * 这里的instance首先是一个函数，可直接这样使用 instance(AxiosRequestConfig接口定义的配置) 发起请求
+ * 使用extend方法将axios实例原型上的方法拷贝一份到instance上，实现axios工厂函数的创建
  */
-function axios(config: AxiosRequestConfig): AxiosPromise {
-  processConfig(config)
-  return xhr(config).then(res => transformResponseData(res))
+function createInstance(): AxiosInstance {
+  // 1.创建axios实例对象
+  const context = new Axios()
+
+  // 2. 直接将Axios类上的request方法赋值给一个普通变量
+  const instance = Axios.prototype.request.bind(context)
+
+  // 3. 调用extend方法将Axios实例原型上的方法拷贝给instance方法
+  extend(instance, context)
+
+  return instance as AxiosInstance
 }
 
-/**
- *
- * processConfig函数是对config做处理的一个统筹函数，当中分布着处理config各个部分的其他函数
- * @param {AxiosRequestConfig} config
- */
-function processConfig(config: AxiosRequestConfig): void {
-  config.url = transformURL(config)
-  config.headers = transformRequestHeader(config)
-  config.data = transformRequestData(config)
-}
+const axios = createInstance()
 
-/**
- *
- * 转换请求的Url
- * @param {AxiosRequestConfig} config
- * @returns {string}
- */
-function transformURL(config: AxiosRequestConfig): string {
-  const { url, params } = config
-  return buildURL(url, params)
-}
-
-/**
- *
- * 转换发送给后端的请求参数
- * @param {AxiosRequestConfig} config
- * @returns {*}
- */
-function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config.data)
-}
-
-/**
- * 转换发送给后端的请求头数据
- * @param config
- */
-function transformRequestHeader(config: AxiosRequestConfig): string {
-  const { headers = {}, data } = config
-  // 根据传递到后端的data来设置默认的请求头数据
-  return processHeaders(headers, data)
-}
-
-function transformResponseData(res: AxiosResponse): AxiosResponse {
-  res.data = transformResponse(res.data)
-  return res
-}
+console.log('axios :>> ', axios)
 
 export default axios

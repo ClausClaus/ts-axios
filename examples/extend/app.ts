@@ -1,34 +1,34 @@
 import axios from '../../src/index'
 
-// axios({
-//   url: '/extend/post',
-//   method: 'post',
-//   data: {
-//     msg: 'hi'
-//   }
-// })
-//
-// axios.request({
-//   url: '/extend/post',
-//   method: 'post',
-//   data: {
-//     msg: 'hello'
-//   }
-// })
-//
-// axios.get('/extend/get')
-//
-// axios.options('/extend/options')
-//
-// axios.delete('/extend/delete')
-//
-// axios.head('/extend/head')
-//
-// axios.post('/extend/post', { msg: 'post' })
-//
-// axios.put('/extend/put', { msg: 'put' })
-//
-// axios.patch('/extend/patch', { msg: 'patch' })
+axios({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hi'
+  }
+})
+
+axios.request({
+  url: '/extend/post',
+  method: 'post',
+  data: {
+    msg: 'hello'
+  }
+})
+
+axios.get('/extend/get')
+
+axios.options('/extend/options')
+
+axios.delete('/extend/delete')
+
+axios.head('/extend/head')
+
+axios.post('/extend/post', { msg: 'post' })
+
+axios.put('/extend/put', { msg: 'put' })
+
+axios.patch('/extend/patch', { msg: 'patch' })
 
 // axios({
 //   url: '/extend/post',
@@ -37,13 +37,13 @@ import axios from '../../src/index'
 //     msg: 'hi'
 //   }
 // })
-//
-// axios('/extend/post', {
-//   method: 'post',
-//   data: {
-//     msg: 'hello'
-//   }
-// })
+
+axios('/extend/post', {
+  method: 'post',
+  data: {
+    msg: 'hello'
+  }
+})
 
 interface ResponseData<T = any> {
   code: number
@@ -62,11 +62,10 @@ function getUser<T>() {
     .catch(err => console.error(err))
 }
 
-
 async function test() {
   const user = await getUser<User>()
   if (user) {
-    console.log(user.result.name)
+    console.log('user.result.name :>> ', user.result.name)
   }
 }
 
