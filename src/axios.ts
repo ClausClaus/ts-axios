@@ -24,6 +24,4 @@ function createInstance(): AxiosInstance {
 
 const axios = createInstance()
 
-console.log('axios :>> ', axios)
-
 export default axios
