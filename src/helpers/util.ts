@@ -49,3 +49,32 @@ export function extend<T, U>(to: T, from: U): T & U {
 
   return to as T & U
 }
+
+/**
+ * 对象深拷贝
+ * @param objs 被拷贝的多个对象
+ */
+export function deepMerge(...objs: any[]): any {
+  const result = Object.create(null)
+
+  objs.forEach(obj => {
+    if (obj) {
+      Object.keys(obj).forEach(key => {
+        const val = obj[key]
+        // val可能又是一个对象，需要递归处理
+        if (isPlainObject(val)) {
+          // result[key]是否已经存在并且是一个对象，已存在并且是一个对象的话，把对象跟值一起作为被拷贝的一部分传入
+          if (isPlainObject(result[key])) {
+            result[key] = deepMerge(result[key], val)
+          } else {
+            result[key] = deepMerge(val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+
+  return result
+}

@@ -1,9 +1,9 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types'
 import xhr from './xhr'
 import { buildURL } from '../helpers/url'
-import { transformRequest, transformResponse } from '../helpers/data'
-import { processHeaders } from '../helpers/header'
-
+import { transformResponse } from '../helpers/data'
+import { flattenHeaders } from '../helpers/header'
+import transform from './transform'
 /**
  *
  * 发起请求处理函数，对请求配置与响应结果进行处理
@@ -22,8 +22,9 @@ export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromis
  */
 function processConfig(config: AxiosRequestConfig): void {
   config.url = transformURL(config)
-  config.headers = transformRequestHeader(config)
-  config.data = transformRequestData(config)
+
+  config.data = transform(config.data, config.headers, config.transformRequest)
+  config.headers = flattenHeaders(config.headers, config.method!)
 }
 
 /**
@@ -37,27 +38,7 @@ function transformURL(config: AxiosRequestConfig): string {
   return buildURL(url!, params)
 }
 
-/**
- *
- * 转换发送给后端的请求参数
- * @param {AxiosRequestConfig} config
- * @returns {*}
- */
-function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config.data)
-}
-
-/**
- * 转换发送给后端的请求头数据
- * @param config
- */
-function transformRequestHeader(config: AxiosRequestConfig): string {
-  const { headers = {}, data } = config
-  // 根据传递到后端的data来设置默认的请求头数据
-  return processHeaders(headers, data)
-}
-
 function transformResponseData(res: AxiosResponse): AxiosResponse {
-  res.data = transformResponse(res.data)
+  res.data = transform(res.data, res.headers, res.config.transformResponse)
   return res
 }

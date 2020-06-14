@@ -1,5 +1,11 @@
 import { isPlainObject } from './util'
 
+/**
+ *
+ * 转换发送给后端的请求参数
+ * @param {AxiosRequestConfig} config
+ * @returns {*}
+ */
 export function transformRequest(data: any): any {
   if (isPlainObject(data)) {
     return JSON.stringify(data)

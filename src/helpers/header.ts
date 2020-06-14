@@ -1,4 +1,5 @@
-import { isPlainObject } from './util'
+import { isPlainObject, deepMerge } from './util'
+import { Method } from '../types'
 
 /**
  * 格式化header请求头参数
@@ -19,6 +20,7 @@ function normalizeHeaderName(headers: any, normalizeName: string): void {
 
 /**
  * 设置默认的请求头 & 规范化请求头
+ * 根据传递到后端的data来设置默认的请求头数据
  * @param headers 请求头参数对象
  * @param data 请求头数据
  */
@@ -63,4 +65,23 @@ export function parseHeaders(headers: string): any {
     parsed[key] = val
   })
   return parsed
+}
+
+/**
+ * 在defaults对象中定义的默认配置是可以从 请求方法的维度 进行配置的，就是针对不同请求有各自的公共配置
+ * 在不同请求方法下应该把此次请求所需要的header提取出来，其他的则删除掉
+ * @param headers 请求的headers
+ * @param method 请求的method
+ */
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers
+  }
+  headers = deepMerge(headers.common, headers[method], headers)
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+
+  return headers
 }
