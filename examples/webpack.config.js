@@ -56,9 +56,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader', 'css-loader'
-        ]
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -67,8 +65,5 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js']
   },
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  ]
+  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NoEmitOnErrorsPlugin()]
 }

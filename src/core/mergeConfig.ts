@@ -60,10 +60,10 @@ function deepMergeStrat(val1: any, val2: any): any {
 
 export default function mergeConfig(
   config1: AxiosRequestConfig,
-  config2: AxiosRequestConfig
+  config2?: AxiosRequestConfig
 ): AxiosRequestConfig {
   if (!config2) {
-    config2 = {}
+    config2 = {} as AxiosRequestConfig
   }
   const config = Object.create(null)
 
