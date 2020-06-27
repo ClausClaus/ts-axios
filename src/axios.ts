@@ -4,6 +4,8 @@ import Axios from './core/Axios'
 import { extend } from './helpers/util'
 import defaults from './defaults'
 import mergeConfig from './core/mergeConfig'
+import CancelToken from './cancel/cancelToken'
+import Cancel, { isCancel } from './cancel/cancel'
 
 /**
  * 实例化axios请求实例，并将Axios类的公共方法继承过来
@@ -27,8 +29,13 @@ function createInstance(config: AxiosRequestConfig): AxiosStatic {
 
 const axios = createInstance(defaults)
 
+// 扩展axios实例的属性跟方法
 axios.create = function create(config) {
   return createInstance(mergeConfig(defaults, config))
 }
+
+axios.CancelToken = CancelToken
+axios.Cancel = Cancel
+axios.isCancel = isCancel
 
 export default axios

@@ -1,4 +1,4 @@
-import axios, { Canceler } from '../../src/index'
+import axios, { Canceler } from '../../src'
 
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
@@ -9,7 +9,7 @@ axios
   })
   .catch(function(e) {
     if (axios.isCancel(e)) {
-      console.log('Request canceled', e.message)
+      console.log('Request canceled:', e.message)
     }
   })
 
