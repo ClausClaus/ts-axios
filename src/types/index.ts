@@ -22,8 +22,8 @@ export interface AxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
-  transformRequest: AxiosTransformer | AxiosTransformer[]
-  transformResponse: AxiosTransformer | AxiosTransformer[]
+  transformRequest?: AxiosTransformer | AxiosTransformer[]
+  transformResponse?: AxiosTransformer | AxiosTransformer[]
 
   [propName: string]: any
 }
@@ -85,6 +85,13 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+/**
+ * Axios静态方法
+ */
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosRequestConfig): AxiosInstance
 }
 
 export interface AxiosInterceptorManger<T> {

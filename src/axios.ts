@@ -1,8 +1,9 @@
 import { AxiosRequestConfig } from './types/index'
-import { AxiosInstance } from './types'
+import { AxiosStatic } from './types'
 import Axios from './core/Axios'
 import { extend } from './helpers/util'
 import defaults from './defaults'
+import mergeConfig from './core/mergeConfig'
 
 /**
  * 实例化axios请求实例，并将Axios类的公共方法继承过来
@@ -11,7 +12,7 @@ import defaults from './defaults'
  * 这里的instance首先是一个函数，可直接这样使用 instance(AxiosRequestConfig接口定义的配置) 发起请求
  * 使用extend方法将axios实例原型上的方法拷贝一份到instance上，实现axios工厂函数的创建
  */
-function createInstance(config: AxiosRequestConfig): AxiosInstance {
+function createInstance(config: AxiosRequestConfig): AxiosStatic {
   // 1.创建axios实例对象
   const context = new Axios(config)
 
@@ -21,9 +22,13 @@ function createInstance(config: AxiosRequestConfig): AxiosInstance {
   // 3. 调用extend方法将Axios实例原型上的方法拷贝给instance方法
   extend(instance, context)
 
-  return instance as AxiosInstance
+  return instance as AxiosStatic
 }
 
 const axios = createInstance(defaults)
+
+axios.create = function create(config) {
+  return createInstance(mergeConfig(defaults, config))
+}
 
 export default axios
