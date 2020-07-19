@@ -1,3 +1,5 @@
+import { URLSearchParams } from 'url'
+
 // 判断数据类型
 const toString = Object.prototype.toString
 
@@ -39,6 +41,10 @@ export function isPlainObject(val: any): val is Object {
 
 export function isFormDaa(val: any): val is FormData {
   return typeof val !== null && val instanceof FormData
+}
+
+export function isURLSearchParams(val: any): val is URLSearchParams {
+  return typeof val !== 'undefined' && val instanceof window.URLSearchParams
 }
 
 /**

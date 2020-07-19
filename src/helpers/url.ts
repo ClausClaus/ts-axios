@@ -1,4 +1,4 @@
-import { isDate, isPlainObject } from './util'
+import { isDate, isPlainObject, isURLSearchParams } from './util'
 
 /**
  *
@@ -26,40 +26,54 @@ function encode(val: string): string {
  * @param {*} [params]
  * @returns {string}
  */
-export function buildURL(url: string, params?: any): string {
+export function buildURL(
+  url: string,
+  params?: any,
+  paramsSerializer?: (params: any) => string
+): string {
   if (!params) {
     return url
   }
-  const parts: string[] = []
-  Object.keys(params).forEach(key => {
-    const val = params[key]
-    if (val === null || typeof val === 'undefined') {
-      return
-    }
-    let values = []
-    // 参数有可能是一个数组
-    if (Array.isArray(val)) {
-      values = val
-      key += '[]'
-    } else {
-      // 变成一个数组做统一处理
-      values = [val]
-    }
-    values.forEach(val => {
-      if (isDate(val)) {
-        val = val.toISOString()
-      } else if (isPlainObject(val)) {
-        val = JSON.stringify(val)
-      }
-      parts.push(`${encode(key)}=${encode(val)}`)
-    })
-  })
 
-  let serializeParams = parts.join('&')
+  let serializeParams
+
+  if (paramsSerializer) {
+    serializeParams = paramsSerializer(params)
+  } else if (isURLSearchParams(params)) {
+    serializeParams = params.toString()
+  } else {
+    const parts: string[] = []
+    Object.keys(params).forEach(key => {
+      const val = params[key]
+      if (val === null || typeof val === 'undefined') {
+        return
+      }
+      let values = []
+      // 参数有可能是一个数组
+      if (Array.isArray(val)) {
+        values = val
+        key += '[]'
+      } else {
+        // 变成一个数组做统一处理
+        values = [val]
+      }
+      values.forEach(val => {
+        if (isDate(val)) {
+          val = val.toISOString()
+        } else if (isPlainObject(val)) {
+          val = JSON.stringify(val)
+        }
+        parts.push(`${encode(key)}=${encode(val)}`)
+      })
+    })
+
+    serializeParams = parts.join('&')
+  }
+
   if (serializeParams) {
     // 丢弃 url 中的哈希标记
     const markIndex = url.indexOf('#')
-    if (markIndex) {
+    if (markIndex !== -1) {
       url = url.slice(0, markIndex)
     }
     // 有可能url上已经带有参数了，判断条件就是看下是否含有问号,没有则加？，否则往现有url后面添加&
