@@ -3,7 +3,7 @@ import { parseHeaders } from '../helpers/header'
 import { createError } from '../helpers/error'
 import { isURLSameOrigin } from '../helpers/url'
 import cookie from '../helpers/cookie'
-import { isFormDaa } from '../helpers/util'
+import { isFormData } from '../helpers/util'
 
 /**
  * 基于XMLHttpRequest对象封装请求函数
@@ -108,7 +108,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         headers['Authorization'] = `Basic ${btoa(auth.username + ':' + auth.password)}`
       }
 
-      if (isFormDaa(data)) {
+      if (isFormData(data)) {
         delete headers['Content-Type']
       }
 
