@@ -131,6 +131,7 @@
   },
   "dependencies": {
     "@types/nprogress": "^0.2.0",
+    "atob": "^2.1.2",
     "css-loader": "^3.6.0",
     "nprogress": "^0.2.0",
     "style-loader": "^1.2.1"
