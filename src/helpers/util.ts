@@ -39,7 +39,7 @@ export function isPlainObject(val: any): val is Object {
   return toString.call(val) === '[object Object]'
 }
 
-export function isFormDaa(val: any): val is FormData {
+export function isFormData(val: any): val is FormData {
   return typeof val !== null && val instanceof FormData
 }
 
