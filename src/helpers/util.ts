@@ -37,6 +37,10 @@ export function isPlainObject(val: any): val is Object {
   return toString.call(val) === '[object Object]'
 }
 
+export function isFormDaa(val: any): val is FormData {
+  return typeof val !== null && val instanceof FormData
+}
+
 /**
  * 使用TS的交叉类型，定义两个泛型，将from中的属性拷贝到to中，并使用类型断言确定数据类型
  * @param to
