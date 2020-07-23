@@ -40,7 +40,7 @@ export function isPlainObject(val: any): val is Object {
 }
 
 export function isFormData(val: any): val is FormData {
-  return typeof val !== null && val instanceof FormData
+  return typeof val !== null && val instanceof window.FormData
 }
 
 export function isURLSearchParams(val: any): val is URLSearchParams {
