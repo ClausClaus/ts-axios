@@ -3,7 +3,7 @@ import { parseHeaders } from '../helpers/header'
 import { createError } from '../helpers/error'
 import { isURLSameOrigin } from '../helpers/url'
 import cookie from '../helpers/cookie'
-import { isFormData, isPlainObject } from '../helpers/util'
+import { isFormData } from '../helpers/util'
 
 /**
  * 基于XMLHttpRequest对象封装请求函数
@@ -15,7 +15,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
       data = null,
       url,
       method = 'get',
-      headers,
+      headers = {},
       responseType,
       timeout,
       cancelToken,
@@ -112,14 +112,13 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         delete headers['Content-Type']
       }
 
-      isPlainObject(headers) &&
-        Object.keys(headers).forEach(name => {
-          if (data === null && name.toLowerCase() === 'content-type') {
-            delete headers[name]
-          } else {
-            request.setRequestHeader(name, headers[name])
-          }
-        })
+      Object.keys(headers).forEach(name => {
+        if (data === null && name.toLowerCase() === 'content-type') {
+          delete headers[name]
+        } else {
+          request.setRequestHeader(name, headers[name])
+        }
+      })
     }
 
     function processCancel(): void {
