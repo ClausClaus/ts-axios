@@ -3,7 +3,7 @@ import xhr from './xhr'
 import { buildURL, isAbsoluteURL, combineURL } from '../helpers/url'
 import { flattenHeaders } from '../helpers/header'
 import transform from './transform'
-import { isAbsolute } from 'path'
+
 /**
  *
  * 发起请求处理函数，对请求配置与响应结果进行处理
@@ -12,7 +12,17 @@ import { isAbsolute } from 'path'
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
   throwIfCancellationRequested(config)
   processConfig(config)
-  return xhr(config).then(res => transformResponseData(res))
+  return xhr(config).then(
+    res => {
+      return transformResponseData(res)
+    },
+    e => {
+      if (e && e.response) {
+        e.response = transformResponseData(e.response)
+      }
+      return Promise.reject(e)
+    }
+  )
 }
 
 /**
@@ -36,7 +46,7 @@ function processConfig(config: AxiosRequestConfig): void {
  */
 export function transformURL(config: AxiosRequestConfig): string {
   let { url, params, paramsSerializer, baseURL } = config
-  if (baseURL && !isAbsolute(url!)) {
+  if (baseURL && !isAbsoluteURL(url!)) {
     url = combineURL(baseURL, url)
   }
   return buildURL(url!, params, paramsSerializer)

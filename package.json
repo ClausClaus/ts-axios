@@ -89,6 +89,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@types/jasmine-ajax": "^3.3.1",
     "@types/node": "^10.11.0",
     "@types/qs": "^6.9.3",
     "body-parser": "^1.18.3",

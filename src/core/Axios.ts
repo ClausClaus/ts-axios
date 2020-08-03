@@ -65,6 +65,7 @@ export default class Axios {
     }
 
     config = mergeConfig(this.defaults, config)
+    config.method = config.method.toLowerCase()
 
     /**
      * 初始化Axios拦截器的Promise链
