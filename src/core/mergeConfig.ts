@@ -49,11 +49,11 @@ startKeysDeepMerge.forEach(key => {
 function deepMergeStrat(val1: any, val2: any): any {
   if (isPlainObject(val2)) {
     return deepMerge(val1, val2)
-  } else if (val2 !== undefined) {
+  } else if (typeof val2 !== 'undefined') {
     return val2
   } else if (isPlainObject(val1)) {
     return deepMerge(val1)
-  } else if (val1 !== undefined) {
+  } else {
     return val1
   }
 }
