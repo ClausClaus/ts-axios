@@ -59,7 +59,7 @@ describe('requests', () => {
 
       jasmine.Ajax.install()
     }
-  })
+  }, 10000)
 
   test('should reject when request timeout', done => {
     let err: AxiosError
@@ -190,9 +190,7 @@ describe('requests', () => {
         Accept: 'application/json'
       }
     }).catch(error => {
-      console.log('error :>> ', error)
       response = error.response
-      console.log('response :>> ', response)
     })
 
     getAjaxRequest().then(request => {
