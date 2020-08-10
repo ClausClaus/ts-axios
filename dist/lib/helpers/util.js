@@ -40,6 +40,7 @@ function isPlainObject(val) {
 }
 exports.isPlainObject = isPlainObject;
 function isFormData(val) {
+    // tslint:disable-next-line:strict-type-predicates
     return typeof val !== null && val instanceof window.FormData;
 }
 exports.isFormData = isFormData;

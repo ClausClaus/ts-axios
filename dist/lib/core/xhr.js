@@ -88,9 +88,15 @@ function xhr(config) {
         }
         function processCancel() {
             if (cancelToken) {
-                cancelToken.promise.then(function (reason) {
+                cancelToken.promise
+                    .then(function (reason) {
                     request.abort();
                     reject(reason);
+                })
+                    .catch(
+                /* istanbul ignore next  */
+                function () {
+                    // do nothing
                 });
             }
         }
@@ -100,7 +106,7 @@ function xhr(config) {
                 resolve(response);
             }
             else {
-                reject(error_1.createError("Request failed with status code " + status, config, null, response));
+                reject(error_1.createError("Request failed with status code " + status, config, null, request, response));
             }
         }
     });

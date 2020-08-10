@@ -24,6 +24,7 @@ function isPlainObject(val) {
     return toString.call(val) === '[object Object]';
 }
 function isFormData(val) {
+    // tslint:disable-next-line:strict-type-predicates
     return typeof val !== null && val instanceof window.FormData;
 }
 function isURLSearchParams(val) {
@@ -390,9 +391,15 @@ function xhr(config) {
         }
         function processCancel() {
             if (cancelToken) {
-                cancelToken.promise.then(function (reason) {
+                cancelToken.promise
+                    .then(function (reason) {
                     request.abort();
                     reject(reason);
+                })
+                    .catch(
+                /* istanbul ignore next  */
+                function () {
+                    // do nothing
                 });
             }
         }
@@ -402,7 +409,7 @@ function xhr(config) {
                 resolve(response);
             }
             else {
-                reject(createError("Request failed with status code " + status, config, null, response));
+                reject(createError("Request failed with status code " + status, config, null, request, response));
             }
         }
     });
@@ -524,6 +531,7 @@ function defaultStrat(val1, val2) {
  * @param val2 config2[key2]
  */
 function fromVal2strat(val1, val2) {
+    // tslint:disable-next-line:strict-type-predicates
     if (typeof val2 !== undefined) {
         return val2;
     }
@@ -553,6 +561,7 @@ startKeysDeepMerge.forEach(function (key) {
 function deepMergeStrat(val1, val2) {
     if (isPlainObject(val2)) {
         return deepMerge(val1, val2);
+        // tslint:disable-next-line:strict-type-predicates
     }
     else if (typeof val2 !== 'undefined') {
         return val2;

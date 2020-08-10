@@ -1,5 +1,4 @@
-import { CancelTokenSource } from '../types';
-import { CancelExecutor } from '../types';
+import { CancelTokenSource, CancelExecutor } from '../types';
 import Cancel from './cancel';
 /**
  * CancelToken类是以axios实例扩展方法的方式挂载到axios上的

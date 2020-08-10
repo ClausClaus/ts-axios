@@ -15,6 +15,7 @@ function defaultStrat(val1, val2) {
  * @param val2 config2[key2]
  */
 function fromVal2strat(val1, val2) {
+    // tslint:disable-next-line:strict-type-predicates
     if (typeof val2 !== undefined) {
         return val2;
     }
@@ -44,6 +45,7 @@ startKeysDeepMerge.forEach(function (key) {
 function deepMergeStrat(val1, val2) {
     if (util_1.isPlainObject(val2)) {
         return util_1.deepMerge(val1, val2);
+        // tslint:disable-next-line:strict-type-predicates
     }
     else if (typeof val2 !== 'undefined') {
         return val2;
