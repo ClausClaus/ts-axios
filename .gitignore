@@ -63,3 +63,12 @@ typings/
 base-content
 
 .vscode
+
+.DS_Store
+*.log
+.idea
+dist
+compiled
+.awcache
+.rpt2_cache
+docs
