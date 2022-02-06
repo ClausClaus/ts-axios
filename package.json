@@ -1,6 +1,6 @@
 {
   "name": "smile-xin-axios",
-  "version": "1.0.2",
+  "version": "1.2.0",
   "description": "",
   "keywords": [],
   "main": "dist/axios.umd.js",
